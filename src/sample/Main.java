@@ -21,7 +21,7 @@ public class Main extends Application {
     boolean streakO = false;
     boolean streak = true;
     int score = 0;
-    Label lable = new Label();
+    Label info = new Label();
 
 
     private Parent createContent(){
@@ -30,27 +30,19 @@ public class Main extends Application {
 
         Button reset = new Button ("Reset");
         reset.setTranslateX(700);
-        reset.setTranslateY(150);
-
+        reset.setTranslateY(200);
         reset.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                info.setText(" ");
                 for (Button b : buttons){
-                    b.setText("");
+                    b.setText(" ");
                     b.setDisable(false);
-                    b.setMouseTransparent(false);
-                    b.setFocusTraversable(true);
                 }
             }
         });
-
-        Button highscore = new Button("Highscore");
-        highscore.setTranslateX(700);
-        highscore.setTranslateY(300);
-
-
-        root.getChildren().add(highscore);
         root.getChildren().add(reset);
+
 
 
         for (int i = 0; i < 3; i++){
@@ -61,8 +53,6 @@ public class Main extends Application {
                 btn.setMaxSize(200,200);
                 btn.setMinSize(200,200);
                 btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-
                     @Override
                     public void handle(MouseEvent event) {
                         if(turn){
@@ -70,7 +60,7 @@ public class Main extends Application {
                             turn = ! turn;
                         }else {
                             btn.setText("O");
-                            turn=!turn;
+                            turn = !turn;
                         }
                         btn.setMouseTransparent(true);
 
@@ -79,6 +69,19 @@ public class Main extends Application {
                 root.getChildren().add(btn);
             }
         }
+
+        Button highscore = new Button("Highscore");
+        highscore.setTranslateX(700);
+        highscore.setTranslateY(300);
+        highscore.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+
+            }
+        });
+
+        root.getChildren().add(highscore);
+
         return root;
     }
 
@@ -89,7 +92,7 @@ public class Main extends Application {
         //Check if X wins
         for(int i=0; i<=2;i++){
             if(buttons.get(i).getText() == "X" && buttons.get(i+3).getText() == "X" && buttons.get(i+6).getText() == "X") {
-                lable.setText("X wins");
+                info.setText("X wins");
                 gameover = true;
                 if(streakO == true){
                     streak = false;
@@ -101,7 +104,7 @@ public class Main extends Application {
         }
         for(int i=0;i<=6;i+=3){
             if(buttons.get(i).getText() == "X" && buttons.get(i+1).getText() == "X" && buttons.get(i+2).getText() == "X"){
-                lable.setText("X wins");
+                info.setText("X wins");
                 gameover = true;
                 if(streakO == true){
                     streak = false;
@@ -112,7 +115,7 @@ public class Main extends Application {
             }
         }
         if(buttons.get(0).getText() == "X" && buttons.get(4).getText() == "X" && buttons.get(8).getText() == "X") {
-            lable.setText("X wins");
+            info.setText("X wins");
             gameover = true;
             if(streakO == true){
                 streak = false;
@@ -122,7 +125,7 @@ public class Main extends Application {
             score++;
         }
         else if(buttons.get(2).getText() == "X" && buttons.get(4).getText() == "X" && buttons.get(6).getText() == "X"){
-            lable.setText("X wins");
+            info.setText("X wins");
             gameover = true;
             if(streakO == true){
                 streak = false;
@@ -132,10 +135,11 @@ public class Main extends Application {
             score++;
         }
 
+
         //Check if O wins
         for(int i=0; i<=2;i++){
             if(buttons.get(i).getText() == "O" && buttons.get(i+3).getText() == "O" && buttons.get(i+6).getText() == "O") {
-                lable.setText("O wins");
+                info.setText("O wins");
                 gameover = true;
                 if(streakX == true){
                     streak = false;
@@ -147,7 +151,7 @@ public class Main extends Application {
         }
         for(int i=0;i<=6;i+=3){
             if(buttons.get(i).getText() == "O" && buttons.get(i+1).getText() == "O" && buttons.get(i+2).getText() == "O"){
-                lable.setText("O wins");
+                info.setText("O wins");
                 gameover = true;
                 if(streakX == true){
                     streak = false;
@@ -158,7 +162,7 @@ public class Main extends Application {
             }
         }
         if(buttons.get(0).getText() == "O" && buttons.get(4).getText() == "O" && buttons.get(8).getText() == "O") {
-            lable.setText("O wins");
+            info.setText("O wins");
             gameover = true;
             if(streakX == true){
                 streak = false;
@@ -168,7 +172,7 @@ public class Main extends Application {
             score++;
         }
         else if(buttons.get(2).getText() == "O" && buttons.get(4).getText() == "O" && buttons.get(6).getText() == "O"){
-            lable.setText("O wins");
+            info.setText("O wins");
             gameover = true;
             if(streakX == true){
                 streak = false;
@@ -193,7 +197,6 @@ public class Main extends Application {
         }
     }
 
-
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
@@ -202,11 +205,7 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-
     public static void main(String[] args) {
         launch(args);
     }
-
-
-
 }
