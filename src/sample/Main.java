@@ -5,12 +5,14 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.scene.control.Button;
 import java.awt.*;
 import java.lang.reflect.Array;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main extends Application {
@@ -23,27 +25,21 @@ public class Main extends Application {
     int score = 0;
     Label info = new Label();
 
+    @Override
+    public void start(Stage primaryStage) throws Exception{
+        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        primaryStage.setTitle("TicTacToe");
+        primaryStage.setScene(new Scene(createContent()));
+        primaryStage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     private Parent createContent(){
         Pane root = new Pane();
         root.setPrefSize(900, 600);
-
-        Button reset = new Button ("Reset");
-        reset.setTranslateX(700);
-        reset.setTranslateY(200);
-        reset.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                info.setText(" ");
-                for (Button b : buttons){
-                    b.setText(" ");
-                    b.setDisable(false);
-                }
-            }
-        });
-        root.getChildren().add(reset);
-
-
 
         for (int i = 0; i < 3; i++){
             for (int j = 0; j < 3; j++) {
@@ -63,12 +59,23 @@ public class Main extends Application {
                             turn = !turn;
                         }
                         btn.setMouseTransparent(true);
-
                     }
                 });
                 root.getChildren().add(btn);
             }
         }
+
+        Button reset = new Button ("Reset");
+        reset.setTranslateX(700);
+        reset.setTranslateY(200);
+       reset.setOnMouseClicked(new EventHandler<MouseEvent>() {
+           @Override
+           public void handle(MouseEvent event) {
+                createContent();
+           }
+       });
+
+        root.getChildren().add(reset);
 
         Button highscore = new Button("Highscore");
         highscore.setTranslateX(700);
@@ -84,7 +91,6 @@ public class Main extends Application {
 
         return root;
     }
-
 
     public void checkGameOver(){
         boolean gameover = false;
@@ -197,15 +203,4 @@ public class Main extends Application {
         }
     }
 
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("TicTacToe");
-        primaryStage.setScene(new Scene(createContent()));
-        primaryStage.show();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
-    }
 }
