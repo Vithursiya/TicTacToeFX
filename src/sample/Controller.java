@@ -28,8 +28,6 @@ public class Controller {
     @FXML
     private Label info = new Label();
 
-
-
     boolean turn = true;
     boolean streakX = false;
     boolean streakO = false;
@@ -38,16 +36,14 @@ public class Controller {
     ArrayList<Button> buttons = new ArrayList<Button>();
 
 
-private void initialize() {
 
-
+    public void initialize() {
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             Button btn = new Button();
-            btn.setTranslateX(i * 200);
-            btn.setTranslateY(j * 200);
-            btn.setMaxSize(200, 200);
-            btn.setMinSize(200, 200);
+            btn.setTranslateX(i * 0);
+            btn.setTranslateY(j * 0);
+            btn.setMinSize(180,180);
             btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
@@ -59,14 +55,13 @@ private void initialize() {
                         turn = !turn;
                     }
                     btn.setMouseTransparent(true);
-                    checkGameOver();
+                    //checkGameOver();
                 }
             });
             panel.getChildren().add(btn);
-            //  Field.add();
+             Field.add(btn, i, j);
         }
     }
-
 
     reset.setTranslateX(700);
     reset.setTranslateY(200);
@@ -93,10 +88,7 @@ private void initialize() {
         }
     });
     panel.getChildren().add(highscore);
-
-
 }
-
 
     public void checkGameOver(){
         boolean gameover = false;
@@ -208,5 +200,4 @@ private void initialize() {
             }
         }
     }
-
 }
