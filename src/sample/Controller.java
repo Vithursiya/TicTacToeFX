@@ -2,14 +2,22 @@ package sample;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Cell;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
+//http://cecs.wright.edu/~pmateti/Courses/7140/Lectures/Examples/TicTacToe-JavaFX-UnRedo/TicTacToe.java
+
 
 public class Controller {
 
@@ -28,6 +36,9 @@ public class Controller {
     @FXML
     private Label info = new Label();
 
+    @FXML
+    private Cell[][] cell =  new Cell[3][3];
+
     boolean turn = true;
     boolean streakX = false;
     boolean streakO = false;
@@ -38,11 +49,14 @@ public class Controller {
 
 
     public void initialize() {
+        GridPane pane = new GridPane();
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             Button btn = new Button();
             btn.setTranslateX(i * 0);
             btn.setTranslateY(j * 0);
+            pane.add(cell[i][j] = new Cell(), j, i);
+
             btn.setMinSize(180,180);
             btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
@@ -55,13 +69,17 @@ public class Controller {
                         turn = !turn;
                     }
                     btn.setMouseTransparent(true);
-                    //checkGameOver();
+                    checkGameOver();
                 }
             });
             panel.getChildren().add(btn);
              Field.add(btn, i, j);
         }
     }
+
+    info.setText("Spieler1: ");
+    info.setTranslateX(700);
+    info.setTranslateY(150);
 
     reset.setTranslateX(700);
     reset.setTranslateY(200);
@@ -70,6 +88,7 @@ public class Controller {
         public void handle(MouseEvent event) {
             for (Button btn : buttons) {
                 btn.setText(" ");
+                //buttons.clear();
             }
         }
     });
@@ -81,9 +100,15 @@ public class Controller {
     highscore.setOnMouseClicked(new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
+            Parent root = null;
+            try {
+                root = FXMLLoader.load(getClass().getResource("Highscore.fxml"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             Stage stage = new Stage();
             stage.setTitle("Highscore");
-            //stage.setScene(new Scene());
+            stage.setScene(new Scene(root));
             stage.show();
         }
     });
@@ -94,94 +119,113 @@ public class Controller {
         boolean gameover = false;
 
         //Check if X wins
-        for(int i=0; i<=2;i++){
-            if(buttons.get(i).getText() == "X" && buttons.get(i+3).getText() == "X" && buttons.get(i+6).getText() == "X") {
+            if(buttons.get(0).getText() == "X" && buttons.get(3).getText() == "X" && buttons.get(6).getText() == "X") {
                 info.setText("X wins");
                 gameover = true;
-                if(streakO == true){
-                    streak = false;
-                    streakO = false;
-                }
-                streakX = true;
+
                 score++;
             }
-        }
-        for(int i=0;i<=6;i+=3){
-            if(buttons.get(i).getText() == "X" && buttons.get(i+1).getText() == "X" && buttons.get(i+2).getText() == "X"){
+            if(buttons.get(0).getText() == "X" && buttons.get(1).getText() == "X" && buttons.get(2).getText() == "X"){
                 info.setText("X wins");
                 gameover = true;
-                if(streakO == true){
-                    streak = false;
-                    streakO = false;
-                }
-                streakX = true;
+
                 score++;
             }
-        }
         if(buttons.get(0).getText() == "X" && buttons.get(4).getText() == "X" && buttons.get(8).getText() == "X") {
             info.setText("X wins");
             gameover = true;
-            if(streakO == true){
-                streak = false;
-                streakO = false;
-            }
+
             streakX = true;
             score++;
         }
         else if(buttons.get(2).getText() == "X" && buttons.get(4).getText() == "X" && buttons.get(6).getText() == "X"){
             info.setText("X wins");
             gameover = true;
-            if(streakO == true){
-                streak = false;
-                streakO = false;
-            }
+
+            score++;
+        }
+        if(buttons.get(1).getText() == "X" && buttons.get(4).getText() == "X" && buttons.get(7).getText() == "X") {
+            info.setText("X wins");
+            gameover = true;
+
+            streakX = true;
+            score++;
+        }
+        if(buttons.get(2).getText() == "X" && buttons.get(5).getText() == "X" && buttons.get(8).getText() == "X") {
+            info.setText("X wins");
+            gameover = true;
+
+            streakX = true;
+            score++;
+        }
+        if(buttons.get(3).getText() == "X" && buttons.get(4).getText() == "X" && buttons.get(5).getText() == "X") {
+            info.setText("X wins");
+            gameover = true;
+
+            streakX = true;
+            score++;
+        }
+        if(buttons.get(6).getText() == "X" && buttons.get(7).getText() == "X" && buttons.get(8).getText() == "X") {
+            info.setText("X wins");
+            gameover = true;
+
             streakX = true;
             score++;
         }
 
 
         //Check if O wins
-        for(int i=0; i<=2;i++){
-            if(buttons.get(i).getText() == "O" && buttons.get(i+3).getText() == "O" && buttons.get(i+6).getText() == "O") {
-                info.setText("O wins");
-                gameover = true;
-                if(streakX == true){
-                    streak = false;
-                    streakX = false;
-                }
-                streakO = true;
-                score++;
-            }
+
+        if(buttons.get(0).getText() == "O" && buttons.get(3).getText() == "O" && buttons.get(6).getText() == "O") {
+            info.setText("O wins");
+            gameover = true;
+
+            score++;
         }
-        for(int i=0;i<=6;i+=3){
-            if(buttons.get(i).getText() == "O" && buttons.get(i+1).getText() == "O" && buttons.get(i+2).getText() == "O"){
-                info.setText("O wins");
-                gameover = true;
-                if(streakX == true){
-                    streak = false;
-                    streakX = false;
-                }
-                streakO = true;
-                score++;
-            }
+            if(buttons.get(0).getText() == "O" && buttons.get(1).getText() == "O" && buttons.get(2).getText() == "O"){
+            info.setText("O wins");
+            gameover = true;
+
+            score++;
         }
         if(buttons.get(0).getText() == "O" && buttons.get(4).getText() == "O" && buttons.get(8).getText() == "O") {
             info.setText("O wins");
             gameover = true;
-            if(streakX == true){
-                streak = false;
-                streakX = false;
-            }
+
             streakO = true;
             score++;
         }
         else if(buttons.get(2).getText() == "O" && buttons.get(4).getText() == "O" && buttons.get(6).getText() == "O"){
             info.setText("O wins");
             gameover = true;
-            if(streakX == true){
-                streak = false;
-                streakX = false;
-            }
+
+            score++;
+        }
+        if(buttons.get(1).getText() == "O" && buttons.get(4).getText() == "O" && buttons.get(7).getText() == "O") {
+            info.setText("O wins");
+            gameover = true;
+
+            streakO = true;
+            score++;
+        }
+        if(buttons.get(2).getText() == "O" && buttons.get(5).getText() == "O" && buttons.get(8).getText() == "O") {
+            info.setText("O wins");
+            gameover = true;
+
+            streakO = true;
+            score++;
+        }
+        if(buttons.get(3).getText() == "O" && buttons.get(4).getText() == "O" && buttons.get(5).getText() == "O") {
+            info.setText("O wins");
+            gameover = true;
+
+            streakO = true;
+            score++;
+        }
+        if(buttons.get(6).getText() == "O" && buttons.get(7).getText() == "O" && buttons.get(8).getText() == "O") {
+            info.setText("O wins");
+            gameover = true;
+
             streakO = true;
             score++;
         }
@@ -195,8 +239,8 @@ public class Controller {
 
         //Check if game is over
         if(gameover){
-            for(Button b : buttons){
-                b.setDisable(true);
+            for(Button btn : buttons){
+                btn.setDisable(true);
             }
         }
     }

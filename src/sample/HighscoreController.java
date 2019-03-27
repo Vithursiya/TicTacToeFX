@@ -6,11 +6,9 @@ public class HighscoreController {
     private HighscoreView view;
 
 
-    public HighscoreController(){
-        initialize();
-    }
 
-    private void initialize() {}
+
+    public void initialize() {}
 
 
 }
