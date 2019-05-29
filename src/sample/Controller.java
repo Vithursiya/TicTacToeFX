@@ -31,6 +31,9 @@ public class Controller {
     private Button reset = new Button("Reset");
 
     @FXML
+    private Button new1 = new Button("New");
+
+    @FXML
     private Button highscore = new Button("Highscore");
 
     @FXML
@@ -61,15 +64,14 @@ public class Controller {
             btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    if (turn) {
+                    if (turn){
                         btn.setText("X");
                         turn = !turn;
-                    } else {
+                    }else{
                         btn.setText("O");
                         turn = !turn;
                     }
                     btn.setMouseTransparent(true);
-                    checkGameOver();
                 }
             });
             panel.getChildren().add(btn);
@@ -81,18 +83,33 @@ public class Controller {
     info.setTranslateX(700);
     info.setTranslateY(150);
 
+    new1.setTranslateX(700);
+    new1.setTranslateY(150);
+    new1.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("Game.fxml"));
+                Stage stage = new Stage();
+                stage.setTitle("TicTacToe");
+                stage.setScene(new Scene(root, 900, 600));
+                stage.show();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    });
+    panel.getChildren().add(new1);
+
     reset.setTranslateX(700);
     reset.setTranslateY(200);
     reset.setOnMouseClicked(new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
-            for (Button btn : buttons) {
-                btn.setText(" ");
-                //buttons.clear();
-            }
+
         }
     });
-    panel.getChildren().add(reset);
 
 
     highscore.setTranslateX(700);
